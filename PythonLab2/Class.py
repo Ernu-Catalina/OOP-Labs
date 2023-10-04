@@ -1,4 +1,4 @@
-import enum
+from enum import Enum
 
 
 class Student:
@@ -26,21 +26,22 @@ class Date:
 
 
 class Faculty:
-    def __init__(self, name, abbreviation):
+    def __init__(self, name, abbreviation, study_field):
         self.name = name
-        self.abb = abbreviation
+        self.abbreviation = abbreviation
         self.students = []
+        self.study_field = study_field
 
     def add_student(self, student):
         self.students.append(student)
 
 
-class StudyFields(enum.Enum):
-    MECHANICAL_ENGINEERING = 1
-    SOFTWARE_ENGINEERING = 2
-    FOOD_TECHNOLOGY = 3
-    URBANISM_ARCHITECTURE = 4
-    VETERINARY_MEDICINE = 5
+class StudyFields(Enum):
+    MECHANICAL_ENGINEERING = ('Mechanical Engineering', 1)
+    SOFTWARE_ENGINEERING = ('Software Engineering', 2)
+    FOOD_TECHNOLOGY = ('Food Technology', 3)
+    URBANISM_ARCHITECTURE = ('Urbanism and Architecture', 4)
+    VETERINARY_MEDICINE = ('Veterinary Medicine', 5)
 
 
 

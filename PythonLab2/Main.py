@@ -17,7 +17,6 @@ while True:
         print("To display what faculty a student belongs to, please type SF.")
         print("To display all university faculties, please type DF.")
         print("To display all university faculties in a particular field, please type DFF.")
-        print("To quit back to Main Menu, please type M.")
         print("To quit the program all together, please type Q.")
 
     elif operation == 'f':
@@ -27,7 +26,6 @@ while True:
         print("To display all students who are currently enrolled, please type DS.")
         print("To display all students who have graduated, please type DGS.")
         print("To check if a student belongs to a specific faculty, please type CSF.")
-        print("To quit back to Main Menu, please type M.")
         print("To quit the program all together, please type Q.")
 
     elif operation == 'q':

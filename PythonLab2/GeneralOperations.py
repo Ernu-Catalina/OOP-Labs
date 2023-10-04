@@ -1,4 +1,4 @@
-from Class import Faculty, Student, Date
+from Class import Faculty, Student, Date, StudyFields
 from FacultyOperations import FacultyFunctions
 
 
@@ -12,11 +12,23 @@ class GeneralFunctions:
         try:
             with open(GeneralFunctions.faculty_file_path, 'r') as file:
                 for line in file:
-                    faculty_name, faculty_abbreviation = line.strip().split(',')
-                    new_faculty = Faculty(faculty_name, faculty_abbreviation)
-                    GeneralFunctions.faculty_list.append(new_faculty)
+                    faculty_name, faculty_abbreviation, study_field_number = line.strip().split(',')
+                    study_field = GeneralFunctions.get_study_field(int(study_field_number))
+                    if study_field:
+                        new_faculty = Faculty(faculty_name, faculty_abbreviation, study_field)
+                        GeneralFunctions.faculty_list.append(new_faculty)
+                    else:
+                        print(f"Invalid study field number {study_field_number}. Skipping this line.")
+
         except FileNotFoundError:
             print("Faculty file not found. Creating a new one.")
+
+    @staticmethod
+    def get_study_field(number):
+        for field in StudyFields:
+            if field.value[1] == number:
+                return field
+        return None
 
     @staticmethod
     def load_students_from_file():
@@ -83,15 +95,33 @@ class GeneralFunctions:
         faculty_name = input("Enter the faculty name: ")
         faculty_abbreviation = input(f"Enter abbreviation for {faculty_name}: ")
 
-        new_faculty = Faculty(faculty_name, faculty_abbreviation)
+        print("Choose a study field for the faculty:")
+        for field in StudyFields:
+            print(f"{field.value[1]}. {field.value[0]}")
+
+        while True:
+            try:
+                choice = int(input("Enter the number associated with the chosen study field: "))
+                study_field = next(f for f in StudyFields if f.value[1] == choice)
+                break
+            except (ValueError, TypeError, StopIteration):
+                print("Invalid choice. Please enter a valid number.")
+
+        new_faculty = Faculty(faculty_name, faculty_abbreviation, study_field)
         GeneralFunctions.faculty_list.append(new_faculty)
 
-        print(f"\nFaculty {new_faculty.abb} ({new_faculty.name}) created successfully!")
+        print(f"\nFaculty {new_faculty.abbreviation} ({new_faculty.name}) created successfully!")
 
         # Save faculties to file after creating a new faculty
         GeneralFunctions.save_faculties_to_file()
 
         return new_faculty
+
+    @staticmethod
+    def save_faculties_to_file():
+        with open(GeneralFunctions.faculty_file_path, 'w') as file:
+            for faculty in GeneralFunctions.faculty_list:
+                file.write(f"{faculty.name},{faculty.abbreviation},{faculty.study_field.value[1]}\n")
 
     @staticmethod
     def find_faculty_by_name(faculty_name):
@@ -106,12 +136,6 @@ class GeneralFunctions:
             if faculty.abb == faculty_abbreviation.upper():
                 return faculty
         return None
-
-    @staticmethod
-    def save_faculties_to_file():
-        with open(GeneralFunctions.faculty_file_path, 'w') as file:
-            for faculty in GeneralFunctions.faculty_list:
-                file.write(f"{faculty.name},{faculty.abb}\n")
 
     @staticmethod
     def mark_student_as_graduated(student_name):

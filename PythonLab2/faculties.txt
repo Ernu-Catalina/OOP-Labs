@@ -1,2 +1,12 @@
-Facultatea Calculatoare Informatica & MicroElectronica, FCIM
-Urbanism & Arhitectura,UA
+Mechanical Engineering Faculty,MEF,1
+Software Engineering Faculty,SEF,2
+Food Technology Faculty,FTF,3
+Urbanism and Architecture Faculty,UAF,4
+Veterinary Medicine Faculty,VMF,5
+Electrical Engineering Faculty,EEF,1
+Computer Science Faculty,CSF,2
+Chemical Engineering Faculty,CEF,1
+Civil Engineering Faculty,CEF,1
+Biology Faculty,BF,5
+Interior Design,ID,4
+Vehicle Engineering Faculty,VEF,1

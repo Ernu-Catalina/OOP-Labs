@@ -1,17 +1,45 @@
 from Class import Student, Date, Faculty
-
+from LoadingOperations import LoadingFunctions
+from GeneralOperations import GeneralFunctions
 
 class FacultyFunctions:
-    faculty_list = []
-    faculty_file_path = 'faculties.txt'  # Path to the faculty file
-    students_file_path = 'students.txt'  # Path to the students file
 
     @staticmethod
-    def save_students_to_file(student_list):
-        with open('students.txt', 'w') as file:
-            for student in student_list:
-                file.write(
-                    f"{student.f_name},{student.l_name},{student.mail},{student.b_day},{student.e_date},{student.faculty.abb},{int(student.graduated)}\n")
-                pass
+    def create_student():
+        student_first_name = input("Enter student's first name: ")
+        student_last_name = input("Enter student's last name: ")
+        student_email = input("Enter student's email: ")
+
+        b_day = input("Enter student's birth date (DD/MM/YYYY): ")
+        birth_date = Date(*map(int, b_day.split('/')))
+
+        e_day = input("Enter student's enrollment date (DD/MM/YYYY): ")
+        enrollment_date = Date(*map(int, e_day.split('/')))
+
+        LoadingFunctions.load_faculties_from_file()
+        faculty_abbreviation_to_search = input("Enter faculty abbreviation: ")
+
+        faculty = LoadingFunctions.find_faculty_by_abbreviation(faculty_abbreviation_to_search)
+
+        if faculty is None:
+            create_faculty = input(
+                f"Faculty {faculty_abbreviation_to_search} does not exist. Do you want to create it? (Y/N) ")
+            if create_faculty.lower() == 'y':
+                faculty = GeneralFunctions.create_faculty()
+                if faculty is not None:
+                    print(f"\nFaculty {faculty.abb} ({faculty.name}) created successfully!")
+                else:
+                    print("Failed to create faculty. Student not added.")
+                    return
+            else:
+                print(f"\nFaculty {faculty_abbreviation_to_search} not found. Student not added.")
+                return
+
+        # Set graduation status to False upon creation
+        new_student = Student(student_first_name, student_last_name, student_email, birth_date, enrollment_date, faculty)
+        faculty.add_student(new_student)
+        LoadingFunctions.save_students_to_file(faculty.students)
+
+        print(f"Student {new_student.f_name} {new_student.l_name} added successfully.")
 
 

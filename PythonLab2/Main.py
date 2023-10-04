@@ -36,23 +36,28 @@ while True:
     else:
         print("Invalid input. Please try again.")
 
+    operation = input().upper()
 
 # GENERAL OPERATIONS:
 
     general_functions = GeneralFunctions()
+    faculty_functions = FacultyFunctions()
 
     if operation == 'NF':
         LoadingFunctions.load_student_faculties_from_file()
         GeneralFunctions.create_faculty()
         LoadingFunctions.save_faculties_to_file()
 
+    elif operation == 'SF':
+        student_name = input("Enter the student's name: ")
+        student_name = student_name.strip()
+        result = GeneralFunctions.get_student_faculty_info(student_name)
+        print(result)
+
 
 # FACULTY OPERATIONS:
 
-    faculty_functions = FacultyFunctions()
-    operation = input().upper()
-
-    if operation == 'AS':
+    elif operation == 'AS':
         FacultyFunctions.create_student()
         LoadingFunctions.save_faculties_to_file()
         LoadingFunctions.load_student_faculties_from_file()

@@ -51,3 +51,13 @@ class GeneralFunctions:
         for faculty in LoadingFunctions.faculty_list:
             all_students.extend(faculty.students)
         return all_students
+
+    @staticmethod
+    def get_student_faculty_info(student_name):
+        LoadingFunctions.load_student_faculties_from_file()
+        for faculty in LoadingFunctions.faculty_list:
+            for s in faculty.students:
+                if f"{s.f_name} {s.l_name}" == student_name:
+                    return f"Student {student_name} belongs to {faculty.name} ({faculty.abb})."
+
+        return f"No student found with the name {student_name}."

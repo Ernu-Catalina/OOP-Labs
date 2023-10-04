@@ -37,6 +37,16 @@ while True:
         print("Invalid input. Please try again.")
 
 
+# GENERAL OPERATIONS:
+
+    general_functions = GeneralFunctions()
+
+    if operation == 'NF':
+        LoadingFunctions.load_student_faculties_from_file()
+        GeneralFunctions.create_faculty()
+        LoadingFunctions.save_faculties_to_file()
+
+
 # FACULTY OPERATIONS:
 
     faculty_functions = FacultyFunctions()
@@ -49,7 +59,6 @@ while True:
         LoadingFunctions.load_student_graduation_status_from_file()
 
     elif operation == 'GS':
-        LoadingFunctions.load_faculties_from_file()
         LoadingFunctions.load_student_faculties_from_file()
         student_name = input("Enter the student name to mark as graduated: ")
         success = GeneralFunctions.mark_student_as_graduated(student_name)
@@ -70,17 +79,14 @@ while True:
         for student in graduated_students:
             print(f"{student.f_name} {student.l_name} - {student.mail}, Birth Date: {student.b_day}, Enrollment Date: {student.e_date}")
 
+    elif operation == 'CSF':
+        student_name = input("Enter the student's name: ")
+        student_name = student_name.strip()
+        faculty_abbreviation = input("Enter the faculty abbreviation: ")
+        result = FacultyFunctions.does_student_belong_to_faculty(student_name, faculty_abbreviation)
+        print(f"{result}")
+
     elif operation == 'Q':
         print("Quitting the program. Goodbye!")
-        break
-
-
-# GENERAL OPERATIONS:
-
-    general_functions = GeneralFunctions()
-
-    if operation == 'NF':
-        LoadingFunctions.load_faculties_from_file()
-        GeneralFunctions.create_faculty()
-        LoadingFunctions.save_faculties_to_file()
+    break
 

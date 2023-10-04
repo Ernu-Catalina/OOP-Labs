@@ -21,20 +21,19 @@ class LoadingFunctions:
         return None
 
     @staticmethod
-    def load_faculties_from_file():
+    def load_faculties_from_file(file_path='faculties.txt'):
         try:
-            with open(LoadingFunctions.faculty_file_path, 'r') as file:
+            with open(file_path, 'r') as file:
                 for line in file:
-                    faculty_name, faculty_abbreviation, study_field_number = line.strip().split(',')
-                    study_field = LoadingFunctions.get_study_field(int(study_field_number))
-                    if study_field:
-                        new_faculty = Faculty(faculty_name, faculty_abbreviation, study_field)
+                    faculty_info = line.strip().split(',')
+                    if len(faculty_info) == 3:
+                        name, abbreviation, study_field = faculty_info
+                        new_faculty = Faculty(name, abbreviation, study_field)
                         LoadingFunctions.faculty_list.append(new_faculty)
                     else:
-                        print(f"Invalid study field number {study_field_number}. Skipping this line.")
-
+                        print(f"Invalid format in the faculties file. Skipping line: {line}")
         except FileNotFoundError:
-            print("Faculty file not found. Creating a new one.")
+            print("Faculties file not found. Creating a new one.")
 
     @staticmethod
     def load_student_faculties_from_file():
@@ -50,7 +49,10 @@ class LoadingFunctions:
                         # Find the faculty by abbreviation
                         faculty = LoadingFunctions.find_faculty_by_abbreviation(faculty_abbreviation)
                         if faculty is not None:
-                            print(f"Student Faculty Loaded: {faculty.abb} ({faculty.name})")
+                            # Assuming that student is an instance of the Student class
+                            student = Student(student_info[0], student_info[1], student_info[2], student_info[3],
+                                              student_info[4], faculty, bool(int(student_info[6])))
+                            faculty.add_student(student)
                         else:
                             print(f"Faculty {faculty_abbreviation} not found for student. Skipping.")
                     else:
@@ -92,8 +94,7 @@ class LoadingFunctions:
 
     @staticmethod
     def save_students_to_file(student_list):
-        with open('students.txt', 'w') as file:
+        with open(LoadingFunctions.students_file_path, 'w') as file:
             for student in student_list:
                 file.write(
                     f"{student.f_name},{student.l_name},{student.mail},{student.b_day},{student.e_date},{student.faculty.abb},{int(student.graduated)}\n")
-                pass

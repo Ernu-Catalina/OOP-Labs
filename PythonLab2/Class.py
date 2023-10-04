@@ -2,7 +2,7 @@ from enum import Enum
 
 
 class Student:
-    def __init__(self, first_name, last_name, email, birth_date, enrollment_date, faculty, graduated=False):
+    def __init__(self, first_name, last_name, email, birth_date, enrollment_date, faculty, graduated):
         self.f_name = first_name
         self.l_name = last_name
         self.mail = email

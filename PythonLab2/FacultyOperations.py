@@ -2,6 +2,7 @@ from Class import Student, Date, Faculty
 from LoadingOperations import LoadingFunctions
 from GeneralOperations import GeneralFunctions
 
+
 class FacultyFunctions:
 
     @staticmethod
@@ -41,5 +42,23 @@ class FacultyFunctions:
         LoadingFunctions.save_students_to_file(faculty.students)
 
         print(f"Student {new_student.f_name} {new_student.l_name} added successfully.")
+
+    @staticmethod
+    def does_student_belong_to_faculty(student_name, faculty_abbreviation):
+        LoadingFunctions.load_student_faculties_from_file()
+        student = None
+        for faculty in LoadingFunctions.faculty_list:
+            for s in faculty.students:
+                # Case-insensitive comparison and handling spaces
+                if f"{s.f_name} {s.l_name}".lower() == student_name.lower():
+                    student = s
+                    break
+        if student:
+            if student.faculty.abb == faculty_abbreviation.upper():
+                return f"Yes, {student.f_name} {student.l_name} belongs to {faculty_abbreviation.upper()}."
+            else:
+                return f"No, {student.f_name} {student.l_name} does not belong to {faculty_abbreviation.upper()}."
+        else:
+            return f"No student found with the name {student_name}."
 
 

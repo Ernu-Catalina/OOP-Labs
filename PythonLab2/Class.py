@@ -2,14 +2,14 @@ from enum import Enum
 
 
 class Student:
-    def __init__(self, first_name, last_name, email, birth_date, enrollment_date, faculty):
+    def __init__(self, first_name, last_name, email, birth_date, enrollment_date, faculty, graduated=False):
         self.f_name = first_name
         self.l_name = last_name
         self.mail = email
         self.b_day = birth_date
         self.e_date = enrollment_date
         self.faculty = faculty
-        self.graduated = False
+        self.graduated = graduated
 
     def graduate(self):
         self.graduated = True
@@ -28,7 +28,7 @@ class Date:
 class Faculty:
     def __init__(self, name, abbreviation, study_field):
         self.name = name
-        self.abbreviation = abbreviation
+        self.abb = abbreviation
         self.students = []
         self.study_field = study_field
 

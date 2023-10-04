@@ -31,30 +31,52 @@ class GeneralFunctions:
         return None
 
     @staticmethod
-    def load_students_from_file():
+    def load_student_faculties_from_file():
         try:
-            with open(GeneralFunctions.students_file_path, 'r') as file:
+            # Load faculties first
+            GeneralFunctions.load_faculties_from_file()
+
+            with open(FacultyFunctions.students_file_path, 'r') as file:
                 for line in file:
                     student_info = line.strip().split(',')
-                    if len(student_info) == 6:
-                        first_name, last_name, email, b_day, e_day, faculty_abbreviation = student_info
-
-                        birth_date = Date(*map(int, b_day.split('/')))
-                        enrollment_date = Date(*map(int, e_day.split('/')))
-
+                    if len(student_info) == 7:
+                        faculty_abbreviation = student_info[5]
+                        # Find the faculty by abbreviation
                         faculty = GeneralFunctions.find_faculty_by_abbreviation(faculty_abbreviation)
-
                         if faculty is not None:
-                            new_student = Student(first_name, last_name, email, birth_date, enrollment_date, faculty)
-                            faculty.add_student(new_student)
+                            print(f"Student Faculty Loaded: {faculty.abb} ({faculty.name})")
                         else:
-                            print(
-                                f"Faculty {faculty_abbreviation} not found for student {first_name} {last_name}. Skipping.")
+                            print(f"Faculty {faculty_abbreviation} not found for student. Skipping.")
                     else:
                         print(f"Invalid format in the students file. Skipping line: {line}")
 
         except FileNotFoundError:
             print("Students file not found. Creating a new one.")
+
+    @staticmethod
+    def load_student_graduation_status_from_file():
+        enrolled_students = []
+        graduated_students = []
+        try:
+            with open(FacultyFunctions.students_file_path, 'r') as file:
+                for line in file:
+                    student_info = line.strip().split(',')
+                    if len(student_info) == 7:
+                        first_name, last_name, email, b_day, e_day, faculty_abbreviation, graduated_str = student_info
+                        birth_date = Date(*map(int, b_day.split('/')))
+                        enrollment_date = Date(*map(int, e_day.split('/')))
+                        faculty = GeneralFunctions.find_faculty_by_abbreviation(faculty_abbreviation)
+                        graduated = bool(int(graduated_str))
+                        new_student = Student(first_name, last_name, email, birth_date, enrollment_date, faculty, graduated)
+                        if graduated:
+                            graduated_students.append(new_student)
+                        else:
+                            enrolled_students.append(new_student)
+                    else:
+                        print(f"Invalid format in the students file. Skipping line: {line}")
+        except FileNotFoundError:
+            print("Students file not found. Creating a new one.")
+        return enrolled_students, graduated_students
 
     @staticmethod
     def create_student():
@@ -74,7 +96,8 @@ class GeneralFunctions:
         faculty = GeneralFunctions.find_faculty_by_abbreviation(faculty_abbreviation_to_search)
 
         if faculty is None:
-            create_faculty = input(f"Faculty {faculty_abbreviation_to_search} does not exist. Do you want to create it? (Y/N) ")
+            create_faculty = input(
+                f"Faculty {faculty_abbreviation_to_search} does not exist. Do you want to create it? (Y/N) ")
             if create_faculty.lower() == 'y':
                 faculty = GeneralFunctions.create_faculty()
                 if faculty is not None:
@@ -86,9 +109,12 @@ class GeneralFunctions:
                 print(f"\nFaculty {faculty_abbreviation_to_search} not found. Student not added.")
                 return
 
+        # Set graduation status to False upon creation
         new_student = Student(student_first_name, student_last_name, student_email, birth_date, enrollment_date,faculty)
         faculty.add_student(new_student)
-        FacultyFunctions.add_student_to_file(new_student, faculty.students)
+        FacultyFunctions.save_students_to_file(faculty.students)
+
+        print(f"Student {new_student.f_name} {new_student.l_name} added successfully.")
 
     @staticmethod
     def create_faculty():
@@ -110,7 +136,7 @@ class GeneralFunctions:
         new_faculty = Faculty(faculty_name, faculty_abbreviation, study_field)
         GeneralFunctions.faculty_list.append(new_faculty)
 
-        print(f"\nFaculty {new_faculty.abbreviation} ({new_faculty.name}) created successfully!")
+        print(f"\nFaculty {new_faculty.abb} ({new_faculty.name}) created successfully!")
 
         # Save faculties to file after creating a new faculty
         GeneralFunctions.save_faculties_to_file()
@@ -131,9 +157,9 @@ class GeneralFunctions:
         return None
 
     @staticmethod
-    def find_faculty_by_abbreviation(faculty_abbreviation):
-        for faculty in GeneralFunctions.faculty_list:
-            if faculty.abb == faculty_abbreviation.upper():
+    def find_faculty_by_abbreviation(abbreviation):
+        for faculty in FacultyFunctions.faculty_list:
+            if faculty.abb == abbreviation:
                 return faculty
         return None
 
@@ -143,8 +169,16 @@ class GeneralFunctions:
             for student in faculty.students:
                 if f"{student.f_name} {student.l_name}" == student_name:
                     student.graduate()
+                    FacultyFunctions.save_students_to_file(GeneralFunctions.get_all_students())
                     print(f"{student_name} has been marked as graduated.")
                     return True
 
         print(f"Student {student_name} not found.")
         return False
+
+    @staticmethod
+    def get_all_students():
+        all_students = []
+        for faculty in GeneralFunctions.faculty_list:
+            all_students.extend(faculty.students)
+        return all_students

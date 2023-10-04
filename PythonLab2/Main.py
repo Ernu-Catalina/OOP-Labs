@@ -42,35 +42,36 @@ while True:
     operation = input().upper()
 
     if operation == 'AS':
-
         GeneralFunctions.create_student()
         GeneralFunctions.save_faculties_to_file()
-        FacultyFunctions.load_students_from_file()
+        GeneralFunctions.load_student_faculties_from_file()
+        GeneralFunctions.load_student_graduation_status_from_file()
+
+    elif operation == 'GS':
         GeneralFunctions.load_faculties_from_file()
-
-    elif operation == 'DS':
-        students = FacultyFunctions.load_students_from_file()
-        if students:
-            print("\nList of all students:")
-            for student in students:
-                print(f"{student.f_name} {student.l_name} - {student.mail}, Birth Date: {student.b_day}, Enrollment Date: {student.e_date}")
-        else:
-            print("No students found.")
-
-    elif operation == 'Q':
-        print("Quitting the program. Goodbye!")
-        break
-
-    if operation == 'GS':
-
-        GeneralFunctions.load_faculties_from_file()
-        GeneralFunctions.load_students_from_file()
+        GeneralFunctions.load_student_faculties_from_file()
         student_name = input("Enter the student name to mark as graduated: ")
         success = GeneralFunctions.mark_student_as_graduated(student_name)
         if success:
             GeneralFunctions.save_faculties_to_file()
         else:
             print("Operation unsuccessful. No changes made.")
+
+    elif operation == 'DS':
+        enrolled_students, graduated_students = GeneralFunctions.load_student_graduation_status_from_file()
+        print("\nList of currently enrolled students:")
+        for student in enrolled_students:
+            print(f"{student.f_name} {student.l_name} - {student.mail}, Birth Date: {student.b_day}, Enrollment Date: {student.e_date}")
+
+    elif operation == 'DGS':
+        enrolled_students, graduated_students = GeneralFunctions.load_student_graduation_status_from_file()
+        print("\nList of graduated students:")
+        for student in graduated_students:
+            print(f"{student.f_name} {student.l_name} - {student.mail}, Birth Date: {student.b_day}, Enrollment Date: {student.e_date}")
+
+    elif operation == 'Q':
+        print("Quitting the program. Goodbye!")
+        break
 
 
 # GENERAL OPERATIONS:

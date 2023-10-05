@@ -37,11 +37,11 @@ class Faculty:
 
 
 class StudyFields(Enum):
-    MECHANICAL_ENGINEERING = ('Mechanical Engineering', 1)
-    SOFTWARE_ENGINEERING = ('Software Engineering', 2)
-    FOOD_TECHNOLOGY = ('Food Technology', 3)
-    URBANISM_ARCHITECTURE = ('Urbanism and Architecture', 4)
-    VETERINARY_MEDICINE = ('Veterinary Medicine', 5)
+    MECHANICAL_ENGINEERING = 1
+    SOFTWARE_ENGINEERING = 2
+    FOOD_TECHNOLOGY = 3
+    URBANISM_ARCHITECTURE = 4
+    VETERINARY_MEDICINE = 5
 
 
 

@@ -3,6 +3,7 @@ from Class import Faculty, Student, Date, StudyFields
 
 class LoadingFunctions:
     faculty_list = []
+    student_list = []
     faculty_file_path = 'faculties.txt'
     students_file_path = 'students.txt'
 
@@ -23,6 +24,8 @@ class LoadingFunctions:
     @staticmethod
     def load_faculties_from_file(file_path='faculties.txt'):
         try:
+            LoadingFunctions.faculty_list.clear()
+
             with open(file_path, 'r') as file:
                 for line in file:
                     faculty_info = line.strip().split(',')
@@ -53,8 +56,6 @@ class LoadingFunctions:
                             student = Student(student_info[0], student_info[1], student_info[2], student_info[3],
                                               student_info[4], faculty, bool(int(student_info[6])))
                             faculty.add_student(student)
-                        else:
-                            print(f"Faculty {faculty_abbreviation} not found for student. Skipping.")
                     else:
                         print(f"Invalid format in the students file. Skipping line: {line}")
 
@@ -90,11 +91,10 @@ class LoadingFunctions:
     def save_faculties_to_file():
         with open(LoadingFunctions.faculty_file_path, 'w') as file:
             for faculty in LoadingFunctions.faculty_list:
-                file.write(f"{faculty.name},{faculty.abbreviation},{faculty.study_field.value[1]}\n")
+                file.write(f"{faculty.name},{faculty.abb},{faculty.study_field}\n")
 
     @staticmethod
     def save_students_to_file(student_list):
-        with open(LoadingFunctions.students_file_path, 'w') as file:
+        with open(LoadingFunctions.students_file_path, 'a') as file:
             for student in student_list:
-                file.write(
-                    f"{student.f_name},{student.l_name},{student.mail},{student.b_day},{student.e_date},{student.faculty.abb},{int(student.graduated)}\n")
+                file.write(f"{student.f_name},{student.l_name},{student.mail},{student.b_day},{student.e_date},{student.faculty.abb},{int(student.graduated)}\n")

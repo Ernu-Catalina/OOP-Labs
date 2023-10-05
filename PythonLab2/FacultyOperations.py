@@ -10,16 +10,12 @@ class FacultyFunctions:
         student_first_name = input("Enter student's first name: ")
         student_last_name = input("Enter student's last name: ")
         student_email = input("Enter student's email: ")
-
         b_day = input("Enter student's birth date (DD/MM/YYYY): ")
         birth_date = Date(*map(int, b_day.split('/')))
-
         e_day = input("Enter student's enrollment date (DD/MM/YYYY): ")
         enrollment_date = Date(*map(int, e_day.split('/')))
-
         LoadingFunctions.load_faculties_from_file()
-        faculty_abbreviation_to_search = input("Enter faculty abbreviation: ")
-
+        faculty_abbreviation_to_search = input("Enter faculty abbreviation: ").upper()
         faculty = LoadingFunctions.find_faculty_by_abbreviation(faculty_abbreviation_to_search)
 
         if faculty is None:
@@ -36,12 +32,23 @@ class FacultyFunctions:
                 print(f"\nFaculty {faculty_abbreviation_to_search} not found. Student not added.")
                 return
 
-        # Set graduation status to False upon creation
-        new_student = Student(student_first_name, student_last_name, student_email, birth_date, enrollment_date, faculty)
-        faculty.add_student(new_student)
-        LoadingFunctions.save_students_to_file(faculty.students)
+        new_student = Student(student_first_name, student_last_name, student_email, birth_date, enrollment_date, faculty, False)
 
-        print(f"Student {new_student.f_name} {new_student.l_name} added successfully.")
+        existing_student = next((s for s in LoadingFunctions.student_list if s.f_name == new_student.f_name and s.l_name == new_student.l_name), None)
+
+        if existing_student:
+            existing_student.mail = new_student.mail
+            existing_student.b_day = new_student.b_day
+            existing_student.e_date = new_student.e_date
+            existing_student.faculty = new_student.faculty  # Update faculty as well
+            print(f"\nStudent {new_student.f_name} {new_student.l_name} already exists. Updated successfully!")
+        else:
+            LoadingFunctions.student_list.append(new_student)
+            print(f"\nStudent {new_student.f_name} {new_student.l_name} created successfully!")
+
+        LoadingFunctions.save_students_to_file(LoadingFunctions.student_list)
+
+        return new_student
 
     @staticmethod
     def does_student_belong_to_faculty(student_name, faculty_abbreviation):
@@ -49,7 +56,6 @@ class FacultyFunctions:
         student = None
         for faculty in LoadingFunctions.faculty_list:
             for s in faculty.students:
-                # Case-insensitive comparison and handling spaces
                 if f"{s.f_name} {s.l_name}".lower() == student_name.lower():
                     student = s
                     break

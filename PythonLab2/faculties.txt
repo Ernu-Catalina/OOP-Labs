@@ -1,12 +1,16 @@
-Mechanical Engineering Faculty,MEF,1
-Software Engineering Faculty,SEF,2
-Food Technology Faculty,FTF,3
-Urbanism and Architecture Faculty,UAF,4
-Veterinary Medicine Faculty,VMF,5
-Electrical Engineering Faculty,EEF,1
-Computer Science Faculty,CSF,2
-Chemical Engineering Faculty,CEF,1
-Civil Engineering Faculty,CEF,1
-Biology Faculty,BF,5
-Interior Design,ID,4
-Vehicle Engineering Faculty,VEF,1
+Interior Design Faculty,IDF,StudyFields.URBANISM_ARCHITECTURE
+Mechanical Engineering Faculty,MEF,StudyFields.MECHANICAL_ENGINEERING
+Software Engineering Faculty,SEF,StudyFields.SOFTWARE_ENGINEERING
+Food Technology Faculty,FTF,StudyFields.FOOD_TECHNOLOGY
+Urbanism and Architecture Faculty,UAF,StudyFields.URBANISM_ARCHITECTURE
+Veterinary Medicine Faculty,VMF,StudyFields.VETERINARY_MEDICINE
+Electrical Engineering Faculty,EEF,StudyFields.MECHANICAL_ENGINEERING
+Computer Science Faculty,CSF,StudyFields.SOFTWARE_ENGINEERING
+Chemical Engineering Faculty,CEF,StudyFields.MECHANICAL_ENGINEERING
+Biology Faculty,BF,StudyFields.VETERINARY_MEDICINE
+Vehicle Engineering Faculty,VEF,StudyFields.MECHANICAL_ENGINEERING
+Marine Biology Faculty,MBF,StudyFields.VETERINARY_MEDICINE
+Wine Production Faculty,WPF,StudyFields.FOOD_TECHNOLOGY
+Archeology Faculty,AF,StudyFields.URBANISM_ARCHITECTURE
+Botany & Flower Arranging Faculty,BFAF,StudyFields.URBANISM_ARCHITECTURE
+Medical Engineering Faculty,MEF,StudyFields.MECHANICAL_ENGINEERING

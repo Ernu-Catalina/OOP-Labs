@@ -1,5 +1,5 @@
 # main.py
-import os
+import sched
 import time
 from functions import FolderMonitor
 

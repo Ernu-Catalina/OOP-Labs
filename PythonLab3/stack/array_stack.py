@@ -1,44 +1,35 @@
-from stack_interface import LimitedContainer
+from PythonLab3.stack.stack_interface import LimitedContainer
 
 
-class Node:
-    def __init__(self, data):
-        self.data = data
-        self.next = None
-
-
-class LinkedStack(LimitedContainer):
+class ArrayUpStack(LimitedContainer):
     def __init__(self):
-        self.top = None
-        self.size = 0
+        self.array = []
+        self.top = -1
         self.MAX_SIZE = 5
 
     def push(self, element):
         if self.is_full():
             print(f"Stack is full. Cannot push element: {element}")
             return
-        new_node = Node(element)
-        new_node.next = self.top
-        self.top = new_node
-        self.size += 1
+        self.top += 1
+        self.array.append(element)
 
     def pop(self):
         if self.is_empty():
             print("Stack is empty. Cannot pop element.")
             return None
-        popped = self.top.data
-        self.top = self.top.next
-        self.size -= 1
+        popped = self.array.pop()
+        self.top -= 1
         return popped
 
     def element(self):
         if self.is_empty():
             print("Stack is empty. No element to peek.")
             return None
-        return self.top.data
+        return self.array[self.top]
 
     def is_empty(self):
-        return self.size == 0
+        return self.top == -1
 
     def is_full(self):
-        return self.size == self.MAX_SIZE
+        return self.top == self.MAX_SIZE - 1

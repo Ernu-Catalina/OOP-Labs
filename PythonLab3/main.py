@@ -1,6 +1,6 @@
-from PythonLab3.stack.array_stack import ArrayUpStack
+from PythonLab3.stack.array_stack import ArrayUpStack, ArrayDownStack
 from PythonLab3.stack.linked_stack import LinkedStack
-from PythonLab3.queue.array_queue import ArrayQueue
+from PythonLab3.queue.array_queue import ArrayQueue, ArrayDownQueue
 from PythonLab3.queue.linked_queue import LinkedQueue
 
 
@@ -14,11 +14,13 @@ def main():
         data_structure_choice = input("Enter your choice: ")
 
         if data_structure_choice == "1":
-            stack_type = input("Choose the stack type (1 for ArrayUpStack, 2 for LinkedStack): ")
+            stack_type = input("Choose the stack type (1 for UpStack, 2 for DownStack, 3 for LinkedStack): ")
 
             if stack_type == "1":
                 stack = ArrayUpStack()
             elif stack_type == "2":
+                stack = ArrayDownStack()
+            elif stack_type == "3":
                 stack = LinkedStack()
             else:
                 print("Invalid choice. Try again.")
@@ -56,11 +58,12 @@ def main():
                     print("Invalid choice. Try again.")
 
         elif data_structure_choice == "2":
-            queue_type = input("Choose the queue type (1 for ArrayQueue, 2 for LinkedQueue): ")
-
+            queue_type = input("Choose the queue type (1 for UpQueue, 2 for DownQueue, 3 for LinkedQueue): ")
             if queue_type == "1":
                 queue = ArrayQueue()
             elif queue_type == "2":
+                queue = ArrayDownQueue()
+            elif queue_type == "3":
                 queue = LinkedQueue()
             else:
                 print("Invalid choice. Try again.")

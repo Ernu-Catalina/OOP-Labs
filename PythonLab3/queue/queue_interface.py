@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class LimitedContainer(ABC):
+class Queue(ABC):
     @abstractmethod
     def enqueue(self, element):
         pass

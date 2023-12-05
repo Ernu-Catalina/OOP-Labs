@@ -1,4 +1,4 @@
-from PythonLab3.stack.stack_interface import LimitedContainer
+from PythonLab3.stack.stack_interface import Stack
 
 
 class Node:
@@ -7,7 +7,7 @@ class Node:
         self.next = None
 
 
-class LinkedStack(LimitedContainer):
+class LinkedStack(Stack):
     def __init__(self):
         self.top = None
         self.size = 0

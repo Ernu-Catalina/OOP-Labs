@@ -1,4 +1,4 @@
-from PythonLab3.queue.queue_interface import LimitedContainer
+from PythonLab3.queue.queue_interface import Queue
 
 
 class Node:
@@ -7,7 +7,7 @@ class Node:
         self.next = None
 
 
-class LinkedQueue(LimitedContainer):
+class LinkedQueue(Queue):
     def __init__(self):
         self.front = None
         self.rear = None

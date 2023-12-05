@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class LimitedContainer(ABC):
+class Stack(ABC):
     @abstractmethod
     def push(self, element):
         pass

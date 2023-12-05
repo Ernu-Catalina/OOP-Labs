@@ -1,4 +1,4 @@
-from stack_interface import Stack
+from stack_interface import LimitedContainer
 
 
 class Node:
@@ -7,11 +7,11 @@ class Node:
         self.next = None
 
 
-class LinkedStack(Stack):
+class LinkedStack(LimitedContainer):
     def __init__(self):
         self.top = None
         self.size = 0
-        self.MAX_SIZE = 9
+        self.MAX_SIZE = 5
 
     def push(self, element):
         if self.is_full():
@@ -31,7 +31,7 @@ class LinkedStack(Stack):
         self.size -= 1
         return popped
 
-    def peek(self):
+    def element(self):
         if self.is_empty():
             print("Stack is empty. No element to peek.")
             return None

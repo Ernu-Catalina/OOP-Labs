@@ -1,11 +1,11 @@
-from stack_interface import Stack
+from stack_interface import LimitedContainer
 
 
-class ArrayStack(Stack):
+class ArrayUpStack(LimitedContainer):
     def __init__(self):
         self.array = []
         self.top = -1
-        self.MAX_SIZE = 9
+        self.MAX_SIZE = 5
 
     def push(self, element):
         if self.is_full():
@@ -22,7 +22,7 @@ class ArrayStack(Stack):
         self.top -= 1
         return popped
 
-    def peek(self):
+    def element(self):
         if self.is_empty():
             print("Stack is empty. No element to peek.")
             return None

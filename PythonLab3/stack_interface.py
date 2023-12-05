@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class Stack(ABC):
+class LimitedContainer(ABC):
     @abstractmethod
     def push(self, element):
         pass
@@ -11,9 +11,13 @@ class Stack(ABC):
         pass
 
     @abstractmethod
-    def peek(self):
+    def element(self):
         pass
 
     @abstractmethod
     def is_empty(self):
+        pass
+
+    @abstractmethod
+    def is_full(self):
         pass

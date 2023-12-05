@@ -14,3 +14,4 @@ Wine Production Faculty,WPF,StudyFields.FOOD_TECHNOLOGY
 Archeology Faculty,AF,StudyFields.URBANISM_ARCHITECTURE
 Botany & Flower Arranging Faculty,BFAF,StudyFields.URBANISM_ARCHITECTURE
 Medical Engineering Faculty,MEF,StudyFields.MECHANICAL_ENGINEERING
+Whatever4,WR,StudyFields.URBANISM_ARCHITECTURE
